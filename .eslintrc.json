@@ -1,0 +1,34 @@
+{
+    "extends": "airbnb",
+    "env": {
+        "browser": true,
+        "node": true,
+        "mocha": true
+    },
+    "ecmaFeatures": {
+        "arrowFunctions": true,
+        "destructuring": true,
+        "classes": true,
+        "defaultParams": true,
+        "blockBindings": true,
+        "modules": true,
+        "forOf": true,
+        "jsx": true,
+        "es6": true
+    },
+    "rules": {
+        "comma-dangle": 0,
+        "react/prop-types": 0,
+        "no-use-before-define": 0,
+        "radix": ["error", "as-needed"],
+        "max-len": ["error", { "code": 120 }],
+        "react/prefer-stateless-function": 0,
+        "no-param-reassign": 0,
+        "no-unused-vars": ["warn", { "vars": "local", "args": "none" }],
+        "quote-props": ["error", "consistent-as-needed"],
+        "no-console": "off",
+        "no-else-return": "off",
+        "no-underscore-dangle": "off",
+        "newline-per-chained-call": "off"
+    }
+}

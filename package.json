@@ -9,11 +9,15 @@
     "react": "15.2.1",
     "react-native": "0.30.0",
     "react-native-button": "^1.6.0",
+    "react-native-loading-spinner-overlay": "^0.3.0",
+    "react-native-material-toolbar": "^1.1.9",
+    "react-native-root-siblings": "^1.0.8",
+    "react-native-root-toast": "^1.0.3",
     "react-native-tab-navigator": "^0.3.2",
+    "react-redux": "^4.4.5",
     "redux": "^3.5.2",
     "redux-logger": "^2.6.1",
-    "redux-thunk": "^2.1.0",
-    "react-redux": "^4.4.5"
+    "redux-thunk": "^2.1.0"
   },
   "devDependencies": {
     "eslint": "^2.13.0",

@@ -1,18 +1,17 @@
 import React from 'react';
 import {
   View,
-  StatusBar,
-  ToolbarAndroid,
   Text,
   StyleSheet
 } from 'react-native';
+import CompatToolbar from '../components/CompatToolbar';
 
 class OrdersPage extends React.Component {
   render() {
+    const { navigator } = this.props;
     return (
       <View style={styles.container}>
-        <StatusBar backgroundColor="#303F9F" />
-        <ToolbarAndroid style={styles.toolbar} title="历史订单" titleColor="#FFFFFF" />
+        <CompatToolbar title="历史订单" navigator={navigator} />
         <View style={styles.content}>
           <Text>这是历史订单页面</Text>
         </View>

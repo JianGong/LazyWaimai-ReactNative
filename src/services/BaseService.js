@@ -1,4 +1,5 @@
-import L from '../utils/Log';
+import AppCookie from '../context/AppCookie';
+import StringUtil from '../utils/StringUtil';
 
 const HTTP = 'http://';
 const HOST = 'api.lazywaimai.com/';
@@ -25,21 +26,43 @@ class BaseService {
 
   request(path, method = 'GET', params) {
     const url = BASE_URL + path;
-    if (method === 'GET') {
-      return this.getRequest(url, params, this.buildHeaders());
-    }
-    return this.postRequest(url, params, this.buildHeaders());
+    const headers = this.buildDefaultHeaders();
+
+    return new Promise((resolve, reject) => {
+      AppCookie.getAccessToken()
+        .then(accessToken => {
+          if (!StringUtil.isEmpty(accessToken)) {
+            headers.append('Authorization', `Bearer ${accessToken}`);
+          }
+
+          console.log(`请求的URL：${url}`);
+          console.log('请求的header：');
+          console.log(headers);
+
+          if (method === 'GET') {
+            return this.getRequest(url, params, headers);
+          } else {
+            return this.postRequest(url, params, headers);
+          }
+        })
+        .then(result => {
+          resolve(result);
+        })
+        .catch(error => {
+          reject(error);
+        });
+    });
   }
 
-  buildHeaders() {
-    return {
-      'Content-Type': 'application/x-www-form-urlencoded',
-      'Authorization': '',
-      'Http-Timestamp': '1456847324345',
-      'Http-App-Version': '1.0',
-      'Http-Device-Id': '99000566712916',
-      'Http-Device-Type': 'android'
-    };
+  buildDefaultHeaders() {
+    const headers = new Headers();
+    headers.append('Content-Type', 'application/x-www-form-urlencoded');
+    headers.append('Http-Timestamp', '1456847324345');
+    headers.append('Http-App-Version', '1.0');
+    headers.append('Http-Device-Id', '99000566712916');
+    headers.append('Http-Device-Type', 'android');
+
+    return headers;
   }
 
   toQueryString(params) {
@@ -55,10 +78,11 @@ class BaseService {
 
   parseResponse(response) {
     return response.json().then(json => {
+      console.log(json);
       if (response.status === 200) {
         return json;
       } else {
-        throw new Error(json.message, json.status);
+        throw new Error(json.message);
       }
     });
   }

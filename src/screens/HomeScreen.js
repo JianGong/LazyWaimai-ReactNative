@@ -1,16 +1,16 @@
 import React from 'react';
 import {
   View,
-  StatusBar,
-  ToolbarAndroid,
   Text,
   Image,
   ListView,
   RefreshControl,
-  StyleSheet
+  StyleSheet,
+  ActivityIndicator
 } from 'react-native';
 import businessService from '../services/BusinessService';
 import CommonStyles from '../common/CommonStyles';
+import CompatToolbar from '../components/CompatToolbar';
 
 class HomeScreen extends React.Component {
 
@@ -56,14 +56,10 @@ class HomeScreen extends React.Component {
       });
   }
 
-  renderLoadingView() {
+  renderLoading() {
     return (
-      <View style={styles.container}>
-        <StatusBar backgroundColor="#303F9F" />
-        <ToolbarAndroid style={styles.toolbar} title="首页" titleColor="#FFFFFF" />
-        <View style={styles.loadingView}>
-          <Text>正在加载电影数据……</Text>
-        </View>
+      <View style={styles.loadingView}>
+        <ActivityIndicator size="large" color="#3F51B5" />
       </View>
     );
   }
@@ -88,6 +84,24 @@ class HomeScreen extends React.Component {
     );
   }
 
+  renderContent() {
+    return (
+      <ListView
+        dataSource={this.state.dataSource}
+        refreshControl={
+          <RefreshControl
+            refreshing={this.state.refreshing}
+            onRefresh={this.onRefresh}
+          />
+        }
+        renderRow={this.renderItem}
+        renderSeparator={this.renderSeperator}
+        style={styles.listView}
+      />
+    );
+  }
+
+
   renderSeperator(sectionID, rowID) {
     return (
       <View key={`${sectionID}-${rowID}`} style={CommonStyles.divider} />
@@ -95,26 +109,11 @@ class HomeScreen extends React.Component {
   }
 
   render() {
-    if (!this.state.loaded) {
-      return this.renderLoadingView();
-    }
-
+    const { navigator } = this.props;
     return (
       <View style={styles.container}>
-        <StatusBar backgroundColor="#303F9F" />
-        <ToolbarAndroid style={styles.toolbar} title="首页" titleColor="#FFFFFF" />
-        <ListView
-          dataSource={this.state.dataSource}
-          refreshControl={
-            <RefreshControl
-              refreshing={this.state.refreshing}
-              onRefresh={this.onRefresh}
-            />
-          }
-          renderRow={this.renderItem}
-          renderSeparator={this.renderSeperator}
-          style={styles.listView}
-        />
+        <CompatToolbar title="首页" navigator={navigator} />
+        {!this.state.loaded ? this.renderLoading() : this.renderContent()}
       </View>
     );
   }

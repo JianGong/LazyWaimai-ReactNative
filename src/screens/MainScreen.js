@@ -33,7 +33,7 @@ class MainContainer extends React.Component {
           renderSelectedIcon={() => <Image source={homeSelectedIcon} style={styles.tabItemIcon} />}
           onPress={() => this.setState({ selectedTab: 'home' })}
         >
-          <HomeScreen />
+          <HomeScreen {...this.props} />
         </TabNavigator.Item>
         <TabNavigator.Item
           selected={this.state.selectedTab === 'orders'}
@@ -42,7 +42,7 @@ class MainContainer extends React.Component {
           renderSelectedIcon={() => <Image source={ordersSelectedIcon} style={styles.tabItemIcon} />}
           onPress={() => this.setState({ selectedTab: 'orders' })}
         >
-          <OrdersScreen />
+          <OrdersScreen {...this.props} />
         </TabNavigator.Item>
         <TabNavigator.Item
           selected={this.state.selectedTab === 'me'}
@@ -51,7 +51,7 @@ class MainContainer extends React.Component {
           renderSelectedIcon={() => <Image source={meSelectedIcon} style={styles.tabItemIcon} />}
           onPress={() => this.setState({ selectedTab: 'me' })}
         >
-          <MeScreen />
+          <MeScreen {...this.props} />
         </TabNavigator.Item>
       </TabNavigator>
     );
